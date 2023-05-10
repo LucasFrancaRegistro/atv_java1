@@ -1,7 +1,9 @@
 package com.autobots.automanager;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +60,9 @@ public class AutomanagerApplication {
 			endereco.setNumero("1702");
 			endereco.setCodigoPostal("22021001");
 			endereco.setInformacoesAdicionais("Hotel Copacabana palace");
-			cliente.setEndereco(endereco);
+			List<Endereco> enderecos = new ArrayList<>();
+			enderecos.add(endereco);
+			cliente.setEndereco(enderecos);
 			
 			Documento rg = new Documento();
 			rg.setTipo("RG");
