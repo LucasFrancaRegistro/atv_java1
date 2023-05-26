@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.autobots.automanager.entidades.Cliente;
 import com.autobots.automanager.entidades.Telefone;
 import com.autobots.automanager.modelo.Selecionador;
 import com.autobots.automanager.modelo.TelefoneAtualizador;
+import com.autobots.automanager.repositorios.ClienteRepositorio;
 import com.autobots.automanager.repositorios.TelefoneRepositorio;
 
 @RestController
@@ -22,6 +24,9 @@ import com.autobots.automanager.repositorios.TelefoneRepositorio;
 public class TelefoneControle {
 	@Autowired
 	private TelefoneRepositorio repositorio;
+	
+	@Autowired
+	private ClienteRepositorio ClienteRepositorio;
 
 	@GetMapping("/telefone/{id}")
 	public Telefone obterTelefone(@PathVariable long id) {
@@ -35,12 +40,16 @@ public class TelefoneControle {
 		return telefones;
 	}
 
-	@PostMapping("/cadastro/telefone")
-	public void cadastrarTelefone(@RequestBody Telefone telefone) {
-		repositorio.save(telefone);
+	@PostMapping("/cadastro/{id}")
+	public void cadastrarTelefone(@RequestBody Telefone telefone, @RequestBody long id) {
+		Cliente cliente = ClienteRepositorio.getById(id);
+		List<Telefone> telefones = cliente.getTelefones();
+		telefones.add(telefone);
+		cliente.setTelefones(telefones);
+		ClienteRepositorio.save(cliente);
 	}
 
-	@PutMapping("/atualizar/telefone")
+	@PutMapping("/atualizar")
 	public void atualizarTelefone(@RequestBody Telefone atualizacao) {
 		Telefone telefone = repositorio.getById(atualizacao.getId());
 		TelefoneAtualizador atualizador = new TelefoneAtualizador();
@@ -48,8 +57,18 @@ public class TelefoneControle {
 		repositorio.save(telefone);
 	}
 
-	@DeleteMapping("/excluir/telefone")
-	public void excluirTelefone(@RequestBody Telefone exclusao) {
+	@DeleteMapping("/excluir/")
+	public void excluirTelefone(@RequestBody Telefone exclusao, @RequestBody long id) {
+		Cliente cliente = ClienteRepositorio.getById(id);
+		List<Telefone> telefones = cliente.getTelefones();
+		for (int i=0; i<telefones.size(); i++) {
+			if (telefones.get(i).getId() == exclusao.getId()) {
+				telefones.remove(i);
+				break;
+			}
+		}
+		cliente.setTelefones(telefones);
+		ClienteRepositorio.save(cliente);
 		Telefone telefone = repositorio.getById(exclusao.getId());
 		repositorio.delete(telefone);
 	}

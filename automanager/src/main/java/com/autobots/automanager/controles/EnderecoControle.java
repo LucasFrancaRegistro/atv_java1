@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.autobots.automanager.entidades.Cliente;
-import com.autobots.automanager.entidades.Documento;
 import com.autobots.automanager.entidades.Endereco;
 import com.autobots.automanager.modelo.EnderecoAtualizador;
 import com.autobots.automanager.modelo.Selecionador;
@@ -60,8 +59,18 @@ public class EnderecoControle {
 		repositorio.save(endereco);
 	}
 
-	@DeleteMapping("/excluir")
-	public void excluirEndereco(@RequestBody Endereco exclusao) {
+	@DeleteMapping("/excluir/{id}")
+	public void excluirEndereco(@RequestBody Endereco exclusao, @PathVariable long id) {
+		Cliente cliente = ClienteRepositorio.getById(id);
+		List<Endereco> enderecos = cliente.getEndereco();
+		for (int i=0; i<enderecos.size(); i++) {
+			if (enderecos.get(i).getId() == exclusao.getId()) {
+				enderecos.remove(i);
+				break;
+			}
+		}
+		cliente.setEndereco(enderecos);
+		ClienteRepositorio.save(cliente);
 		Endereco endereco = repositorio.getById(exclusao.getId());
 		repositorio.delete(endereco);
 	}
