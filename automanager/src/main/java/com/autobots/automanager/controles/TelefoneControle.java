@@ -69,7 +69,5 @@ public class TelefoneControle {
 		}
 		cliente.setTelefones(telefones);
 		ClienteRepositorio.save(cliente);
-		Telefone telefone = repositorio.getById(exclusao.getId());
-		repositorio.delete(telefone);
 	}
 }
