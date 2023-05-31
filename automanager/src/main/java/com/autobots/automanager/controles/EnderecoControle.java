@@ -71,7 +71,5 @@ public class EnderecoControle {
 		}
 		cliente.setEndereco(enderecos);
 		ClienteRepositorio.save(cliente);
-		Endereco endereco = repositorio.getById(exclusao.getId());
-		repositorio.delete(endereco);
 	}
 }
