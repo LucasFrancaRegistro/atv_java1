@@ -35,7 +35,7 @@ public class ClienteControle {
 		return clientes;
 	}
 
-	@PostMapping("/cadastro")
+	@PostMapping("/cadastrar")
 	public void cadastrarCliente(@RequestBody Cliente cliente) {
 		repositorio.save(cliente);
 	}

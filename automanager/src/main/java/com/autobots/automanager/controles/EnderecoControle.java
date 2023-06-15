@@ -41,7 +41,7 @@ public class EnderecoControle {
 		return enderecos;
 	}
 
-	@PostMapping("/cadastro/{id}")
+	@PostMapping("/cadastrar/{id}")
 	public void cadastrarEndereco(@RequestBody Endereco endereco, @PathVariable long id) {
 		Cliente cliente = ClienteRepositorio.getById(id);
 		List<Endereco> enderecos = cliente.getEndereco();

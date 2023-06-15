@@ -40,7 +40,7 @@ public class TelefoneControle {
 		return telefones;
 	}
 
-	@PostMapping("/cadastro/{id}")
+	@PostMapping("/cadastrar/{id}")
 	public void cadastrarTelefone(@RequestBody Telefone telefone, @RequestBody long id) {
 		Cliente cliente = ClienteRepositorio.getById(id);
 		List<Telefone> telefones = cliente.getTelefones();

@@ -40,7 +40,7 @@ public class DocumentoControle {
 		return documentos;
 	}
 
-	@PostMapping("/cadastro/{id}")
+	@PostMapping("/cadastrar/{id}")
 	public void cadastrarDocumento(@RequestBody Documento documento, @PathVariable long id) {
 		Cliente cliente = ClienteRepositorio.getById(id);
 		List<Documento> documentos = cliente.getDocumentos();
