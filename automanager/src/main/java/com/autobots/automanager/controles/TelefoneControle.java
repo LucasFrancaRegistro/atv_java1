@@ -57,7 +57,7 @@ public class TelefoneControle {
 		repositorio.save(telefone);
 	}
 
-	@DeleteMapping("/excluir/")
+	@DeleteMapping("/excluir/{id}")
 	public void excluirTelefone(@RequestBody Telefone exclusao, @RequestBody long id) {
 		Cliente cliente = ClienteRepositorio.getById(id);
 		List<Telefone> telefones = cliente.getTelefones();
